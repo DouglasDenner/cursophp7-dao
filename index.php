@@ -23,11 +23,16 @@ carrega um novo usuario
 $aluno = new Usuario("gubebegala","40028922");
 $aluno->insert();
 echo $aluno;
-*/
+
 $usuario = new Usuario();
 $usuario->loadById(21);
 $usuario->update("gugudaocu", "241124");
 echo $usuario;
+*/
+$usuario = new Usuario();
+$usuario->loadById(21);     
+$usuario->delete();
+echo "Usuário deletado";
 
 
 
