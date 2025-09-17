@@ -102,8 +102,49 @@ public function login($login, $password){
         throw new Exception("Login e/ou senha inválidos.");
 
     }
-
+}
+public function setData($data){ 
+    $this->setIdusuario($data['idusuario']);
+    $this->setDeslogin($data['deslogin']);  
+    $this->setDessenha($data['dessenha']);
+    $this->setDtcadastro(new DateTime($data['dtcadastro']));
 
 }
+public function __construct($login = "", $password = ""){
+
+    $this->setDeslogin($login);
+    $this->setDessenha($password);
+
 }
+public function insert(){
+
+    $sql = new sql();
+
+    $results = $sql->query("INSERT INTO tb_usuarios (deslogin, dessenha) 
+VALUES ('" . $this->getDeslogin() . "', '" . $this->getDessenha() . "');");
+
+    $results = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = LAST_INSERT_ID();");
+
+    if (count($results) > 0){
+
+        $this->setData($results[0]);
+
+       
+    }
+
+}
+public function update($login, $password){
+    $this->setDeslogin($login);
+    $this->setDessenha($password);
+    $sql = new sql();
+    $sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario = :ID", array(
+        ":LOGIN"=>$this->getDeslogin(),
+        ":PASSWORD"=>$this->getDessenha(),
+        ":ID"=>$this->getIdusuario()
+    ));
+
+    }
+
+}
+
 ?>
